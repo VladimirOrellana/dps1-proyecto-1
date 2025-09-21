@@ -1,0 +1,134 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Manager Mia",
+      "email": "manager@example.com",
+      "password": "password",
+      "role": "manager"
+    },
+    {
+      "id": 2,
+      "name": "User Uriel",
+      "email": "user@example.com",
+      "password": "password",
+      "role": "user"
+    },
+    {
+      "name": "VLADIMIR",
+      "email": "vladimir@ejemplo.com",
+      "password": "password",
+      "role": "manager",
+      "id": 3
+    },
+    {
+      "name": "VLADIMIR2",
+      "email": "vladimir2@ejemplo.com",
+      "password": "password",
+      "role": "user",
+      "id": 4
+    },
+    {
+      "name": "vladimir3",
+      "email": "vladimir3@ejemplo.com",
+      "password": "password",
+      "role": "user",
+      "id": 5
+    },
+    {
+      "name": "rolo",
+      "email": "rolo@rolo.com",
+      "password": "1234",
+      "role": "manager",
+      "id": 6
+    },
+    {
+      "name": "vladimir4",
+      "email": "vladimir4@ejemplo.com",
+      "password": "password",
+      "role": "user",
+      "id": 7
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "name": "Website Redesign",
+      "description": "Landing + Blog",
+      "progress": 60,
+      "createdAt": "2025-01-01T00:00:00.000Z"
+    },
+    {
+      "name": "proyect 2.0",
+      "description": "nuevo ejemplo\n",
+      "progress": 0,
+      "createdAt": "2025-09-20T08:29:22.713Z",
+      "id": 3
+    },
+    {
+      "name": "TAREA",
+      "description": "explicacion",
+      "progress": 0,
+      "createdAt": "2025-09-21T02:01:03.154Z",
+      "id": 5
+    },
+    {
+      "name": "hola",
+      "description": "hola",
+      "progress": 0,
+      "createdAt": "2025-09-21T15:05:38.571Z",
+      "id": 6
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Hero section",
+      "status": "done",
+      "projectId": 1,
+      "assignee": "VLADIMIR"
+    },
+    {
+      "id": 2,
+      "title": "Blog layout",
+      "status": "done",
+      "projectId": 1,
+      "assignee": "User Uriel"
+    },
+    {
+      "title": "actividad 1",
+      "status": "done",
+      "projectId": 3,
+      "assignee": "User Uriel",
+      "id": 5
+    },
+    {
+      "title": "pantallan",
+      "status": "done",
+      "projectId": 1,
+      "assignee": "vladimir3",
+      "id": 6
+    },
+    {
+      "title": "CUADERNO",
+      "status": "doing",
+      "projectId": 5,
+      "assignee": "vladimir3",
+      "id": 11
+    },
+    {
+      "title": "hola",
+      "status": "doing",
+      "projectId": 6,
+      "assignee": "rolo",
+      "id": 12
+    },
+    {
+      "title": "hola2",
+      "status": "done",
+      "projectId": 6,
+      "assignee": "vladimir3",
+      "id": 13
+    }
+  ]
+}

@@ -1,0 +1,300 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================
+   Breakpoints usados (Tailwind por defecto, mobile-first):
+   sm: 640px | md: 768px | lg: 1024px | xl: 1280px | 2xl: 1536px
+   ========================================================= */
+
+/* ============== Base ================= */
+/* FIX: box-sizing global para evitar desbordes por padding/border */
+*, *::before, *::after { box-sizing: border-box; }
+
+:root { --bg: 255 255 255; --fg: 17 24 39; }
+
+html, body, :root { height: 100%; }
+/* FIX: corta cualquier overflow horizontal residual */
+html, body { width: 100%; overflow-x: hidden; }
+
+body { color: rgb(var(--fg)); background: rgb(var(--bg)); @apply antialiased; }
+
+/* Imágenes/iframes responsivos por defecto */
+img, video, canvas, iframe { max-width: 100%; height: auto; display: block; }
+
+/* Evitar que textos larguísimos rompan el layout */
+* { word-break: break-word; overflow-wrap: anywhere; }
+
+/* ============== Contenedor ============== */
+.container { @apply mx-auto max-w-full px-3; }
+/* FIX: asegura que nunca exceda el viewport */
+.container { max-width: 100vw; }
+
+@layer components {
+  @screen sm  { .container { @apply max-w-screen-sm px-4; } }
+  @screen md  { .container { @apply max-w-screen-md px-6; } }
+  @screen lg  { .container { @apply max-w-screen-lg px-8; } }
+  @screen xl  { .container { @apply max-w-screen-xl px-8; } }
+  @screen 2xl { .container { @apply max-w-screen-2xl px-8; } }
+}
+
+/* ============== Tarjeta ============== */
+.card { @apply bg-white border border-gray-200 rounded-2xl shadow-sm p-4; }
+/* FIX: nunca dejar que la tarjeta se pase de ancho */
+.card { max-width: 100%; overflow-x: hidden; }
+
+@layer components {
+  @screen sm  { .card { @apply p-5; } }
+  @screen md  { .card { @apply p-6; } }
+  @screen lg  { .card { @apply p-6; } }
+}
+
+/* ============== Botones ============== */
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 border font-semibold
+         transition active:translate-y-px disabled:opacity-70 disabled:cursor-not-allowed;
+}
+.btn-primary {
+  @apply bg-indigo-600 text-white border-transparent shadow hover:bg-indigo-700
+         focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-300;
+}
+.btn-secondary {
+  @apply bg-white text-gray-900 border-gray-300 hover:bg-gray-50
+         focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-gray-200;
+}
+.btn-ghost {
+  @apply bg-transparent text-gray-900 border-transparent hover:bg-gray-100
+         focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-gray-200;
+}
+.btn-sm { @apply px-3 py-1.5 text-sm rounded-lg; }
+
+/* Botones responsivos (mejor UX en móvil) */
+@layer utilities {
+  @media (max-width: 375px) { /* iPhone SE / móviles muy pequeños */
+    .btn { @apply w-full text-sm px-3 py-2; }
+    .btn-sm { @apply w-full; }
+  }
+  @screen sm {
+    .btn { @apply px-4 py-2; }
+  }
+}
+
+/* ============== Inputs / Selects ============== */
+.input {
+  @apply w-full rounded-xl border border-gray-300 bg-white px-3 py-2 transition
+         focus:outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-500
+         disabled:opacity-70 disabled:cursor-not-allowed;
+}
+/* FIX: que inputs/selects no puedan exceder el contenedor */
+.input, .status-select { max-width: 100%; }
+
+/* Mejora de tap targets en móviles */
+@layer utilities {
+  @media (max-width: 375px) {
+    .input { @apply py-2.5 text-sm; }
+  }
+}
+
+/* ============== Labels / Badges ============== */
+.label { @apply block text-sm font-medium text-gray-600 mb-1; }
+.badge {
+  @apply inline-flex items-center justify-center h-6 px-2 rounded-full
+         border border-gray-200 bg-gray-50 text-xs font-medium text-gray-700;
+}
+
+/* ============== Navbar ============== */
+.nav { @apply sticky top-0 z-30 bg-white/80 text-gray-900 backdrop-blur border-b border-gray-200; }
+.nav .container { @apply py-2; }
+.link { @apply underline underline-offset-2 hover:opacity-90; }
+
+/* FIX: nav jamás debe generar scroll lateral */
+.nav, .nav .container { max-width: 100vw; overflow-x: hidden; }
+
+/* Navbar responsive: compacta en móvil, separada en desktop */
+@layer components {
+  .nav-actions { @apply flex items-center gap-2; }
+  @media (max-width: 480px) {
+    .nav .container { @apply py-2 px-3; }
+    .nav-actions { @apply gap-1; }
+  }
+  @screen md {
+    .nav .container { @apply py-3; }
+    .nav-actions { @apply gap-3; }
+  }
+}
+
+/* ============== Select de estado ============== */
+.status-select { @apply transition; }
+.status-select.status-todo  { @apply bg-white border-gray-300 text-gray-900; }
+.status-select.status-doing { @apply bg-yellow-50 border-yellow-300 text-yellow-800; }
+.status-select.status-done  { @apply bg-green-50  border-green-300  text-green-800; }
+
+/* Ancho del select según viewport para evitar overflow en listas */
+/* FIX: hacerlos más conservadores en móviles y forzar wrap en filas estrechas */
+@layer utilities {
+  @media (max-width: 360px) { .status-select { @apply w-full; } }
+  @media (min-width: 361px) and (max-width: 639px) { .status-select { @apply w-48; } } /* un poco más angosto que 56 */
+  @screen sm { .status-select { @apply w-56; } }
+}
+
+/* ============== Grillas de tarjetas (secciones) ============== */
+/* Fallback responsive para componentes que no usen utilidades 'md:grid-cols-*' en TSX */
+@layer components {
+  .grid-cards-2 { @apply grid grid-cols-1 gap-4; }
+  @screen md { .grid-cards-2 { @apply grid-cols-2; } }
+
+  .grid-cards-3 { @apply grid grid-cols-1 gap-3; }
+  @screen md { .grid-cards-3 { @apply grid-cols-2; } }
+  @screen lg { .grid-cards-3 { @apply grid-cols-3; } }
+}
+
+/* ============== Progress bars ============== */
+.progress { @apply h-2 w-full bg-gray-200 rounded; }
+.progress > .bar { @apply h-2 rounded; }
+@layer utilities {
+  @media (max-width: 375px) {
+    .progress { @apply h-2; }
+    .progress > .bar { @apply h-2; }
+  }
+}
+
+/* ============== Tipografía responsive sutil ============== */
+@layer utilities {
+  @media (max-width: 375px) {
+    .text-responsive-title { @apply text-xl; }   /* títulos compactos en móvil chico */
+    .text-responsive-kpi   { @apply text-2xl; }  /* números grandes pero no exagerados */
+  }
+  @screen sm {
+    .text-responsive-title { @apply text-2xl; }
+    .text-responsive-kpi   { @apply text-3xl; }
+  }
+}
+
+/* ============== Espaciados en main wrapper ============== */
+@layer components {
+  /* Tu TSX ya usa: mx-auto max-w-7xl px-3 sm:px-4 lg:px-6 py-6. */
+  .page-wrap { @apply px-3 py-6; }
+  @screen sm  { .page-wrap { @apply px-4; } }
+  @screen lg  { .page-wrap { @apply px-6; } }
+  @screen 2xl { .page-wrap { @apply px-8; } }
+}
+/* FIX: por si algún contenedor interno ensancha, corta overflow-x */
+.page-wrap, main { max-width: 100vw; overflow-x: hidden; }
+
+/* ============== Helpers de visibilidad ============== */
+@layer utilities {
+  .only-mobile { @apply block; }
+  .only-desktop { @apply hidden; }
+  @screen md {
+    .only-mobile { @apply hidden; }
+    .only-desktop { @apply block; }
+  }
+}
+
+/* ============== Tema oscuro manual por atributo ============== */
+[data-theme="dark"] body { @apply bg-slate-900 text-slate-100; }
+
+/* Navbar oscuro */
+[data-theme="dark"] .nav {
+  @apply bg-slate-900/90 text-slate-100 border-b border-slate-700 backdrop-blur;
+}
+[data-theme="dark"] .nav a,
+[data-theme="dark"] .nav span,
+[data-theme="dark"] .nav button { @apply text-slate-100; }
+
+/* Tarjetas / badges / labels en oscuro */
+[data-theme="dark"] .card  { @apply bg-slate-800 border border-slate-700 shadow; }
+[data-theme="dark"] .badge { @apply bg-slate-800 border-slate-700 text-slate-200; }
+[data-theme="dark"] .label { @apply text-slate-300; }
+[data-theme="dark"] .link  { @apply text-indigo-300; }
+
+/* Inputs por defecto en oscuro */
+[data-theme="dark"] .input {
+  @apply bg-slate-900 border-slate-700 text-slate-100
+         placeholder:text-slate-400
+         focus:ring-4 focus:ring-indigo-500/30 focus:border-indigo-400;
+}
+
+/* Selects de estado en oscuro (colores visibles sin foco) */
+[data-theme="dark"] .status-select.status-todo  { @apply bg-slate-900 border-slate-600 text-slate-200; }
+[data-theme="dark"] .status-select.status-doing { @apply bg-yellow-900/20 border-yellow-500/40 text-yellow-200; }
+[data-theme="dark"] .status-select.status-done  { @apply bg-green-900/20  border-green-500/40  text-green-200; }
+
+[data-theme="dark"] .btn-secondary,
+[data-theme="dark"] .nav .btn-secondary {
+  @apply bg-slate-800 text-slate-100 border-slate-600 hover:bg-slate-700 shadow;
+}
+
+/* ============== Micro-ajustes para listas de tareas ============== */
+/* Evita desbordes por títulos largos en móvil */
+@layer utilities {
+  .truncate-soft { @apply truncate; }
+  @media (max-width: 480px) {
+    .task-row { @apply gap-2; }
+    .task-actions { @apply flex flex-wrap gap-2; }
+  }
+}
+
+/* FIX IMPORTANTE: permitir que flex/grids puedan encoger contenido largo (sin TSX) */
+@layer utilities {
+  .min-w-0 { min-width: 0 !important; } /* refuerza utility de Tailwind si no está aplicada */
+}
+/* Aplica a contenedores comunes (cards, filas de tasks, headers) */
+.card, .nav, .container, .page-wrap, header, section, ul, li { min-width: 0; }
+
+/* ============== Mejoras de foco y accesibilidad ============== */
+@layer utilities {
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-300;
+  }
+  [role="progressbar"] { @apply outline-none; }
+}
+
+/* ============== Layout helpers para las páginas dadas ============== */
+/* Dashboard: KPIs y secciones */
+@layer components {
+  .kpi-card { @apply card p-4; }
+  @screen md { .kpi-grid { @apply grid grid-cols-3 gap-3; } }
+  @media (max-width: 767px) {
+    .kpi-grid { @apply grid grid-cols-1 gap-3; }
+  }
+  /* Grupo de tareas por proyecto */
+  .group-grid { @apply grid grid-cols-1 gap-4; }
+  @screen md  { .group-grid { @apply grid-cols-2; } }
+  @screen xl  { .group-grid { @apply grid-cols-3; } }
+}
+
+/* ============== Ajustes ultra-estrechos (<= 320-360px) ============== */
+@media (max-width: 360px) {
+  .card { @apply p-4; }
+  .nav .container { @apply px-3; }
+  .label { @apply mb-1; }
+  .input { @apply text-sm; }
+  .progress { @apply h-2; }
+}
+/* FIX NAVBAR: no partir palabras letra por letra  */
+.nav, .nav * {
+  word-break: normal;      /* revierte el break agresivo */
+  overflow-wrap: normal;   /* permite cortar solo en espacios */
+  hyphens: manual;
+}
+
+/* Evita que los botones/chips se rompan en varias líneas */
+.nav .btn,
+.nav .badge,
+.nav [role="button"] {
+  white-space: nowrap;
+}
+
+/* Los enlaces del menú tampoco deberían partirse */
+.nav a,
+.nav .link,
+.nav span {
+  white-space: nowrap;
+}
+
+
+.nav .container {
+  flex-wrap: wrap;
+  gap: .25rem; /* un pelín de aire cuando saltan de línea */
+}

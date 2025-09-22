@@ -10,7 +10,7 @@ Login with `manager@example.com` or `user@example.com` (any password accepted in
 ## Deploy
 - Push to GitHub, connect the repo in Vercel, set env var `NEXT_PUBLIC_API_URL` to your JSON Server URL (or mock API).
 
-## Highlights (matches your rubric)
+## Highlights 
 - React + Next.js (App Router, TypeScript)
 - Axios client (`/lib/api.ts`)
 - TailwindCSS
